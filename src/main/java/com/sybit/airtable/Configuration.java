@@ -19,7 +19,7 @@ public class Configuration {
     private String endpointUrl;
     private String apiKey;
     private String proxy;
-    private Long timeout;
+    private Integer timeout;
 
     /**
      * Configure API using given API Key ,default endpoint and no Proxy.
@@ -62,7 +62,7 @@ public class Configuration {
      * Get connection timeout.
      * @return
      */
-    public Long getTimeout() {
+    public Integer getTimeout() {
         return timeout;
     }
 
@@ -70,7 +70,7 @@ public class Configuration {
      * Set connection timeout.
      * @param timeout
      */
-    public void setTimeout(Long timeout) {
+    public void setTimeout(Integer timeout) {
         this.timeout = timeout;
     }
 

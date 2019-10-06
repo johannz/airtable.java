@@ -7,10 +7,12 @@
 package com.sybit.airtable.exception;
 
 import com.google.gson.Gson;
-import com.mashape.unirest.http.HttpResponse;
+import kong.unirest.HttpResponse;
 import com.sybit.airtable.vo.Error;
+import kong.unirest.UnirestParsingException;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Handle HTTP responses and create exceptions.
@@ -22,7 +24,8 @@ public class HttpResponseExceptionHandler {
     public static void onResponse(HttpResponse response) throws AirtableException {
 
         final Integer statusCode = response.getStatus();
-        String message = convertStreamToString(response.getRawBody());
+        Optional<UnirestParsingException> parsingException = response.getParsingError();
+        String message = parsingException.map(UnirestParsingException::getOriginalBody).orElse("");
 
         Error err = extractError(message);
 

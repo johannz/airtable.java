@@ -56,10 +56,10 @@ public class ListConverter extends AbstractConverter {
      * @param type The type of the Input Object
      * @param value The value of the Input Object
      * @return A List
-     * @throws java.lang.InstantiationException If no Instance of the listClass
+     * @throws InstantiationException If no Instance of the listClass
      * can be instantiated
-     * @throws java.lang.IllegalAccessException If the Object can't be accest
-     * @throws java.lang.reflect.InvocationTargetException If th Target can't be
+     * @throws IllegalAccessException If the Object can't be accest
+     * @throws InvocationTargetException If th Target can't be
      * accessed
      */
     @Override

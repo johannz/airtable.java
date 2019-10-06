@@ -7,10 +7,10 @@
 package com.sybit.airtable;
 
 import com.google.gson.annotations.SerializedName;
-import com.mashape.unirest.http.HttpResponse;
-import com.mashape.unirest.http.Unirest;
-import com.mashape.unirest.http.exceptions.UnirestException;
-import com.mashape.unirest.request.GetRequest;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
+import kong.unirest.UnirestException;
+import kong.unirest.GetRequest;
 import com.sybit.airtable.exception.AirtableException;
 import com.sybit.airtable.exception.HttpResponseExceptionHandler;
 import com.sybit.airtable.vo.*;
@@ -89,7 +89,7 @@ public class Table<T> {
      *
      * @return List of all items.
      * @throws AirtableException
-     * @throws org.apache.http.client.HttpResponseException
+     * @throws HttpResponseException
      */
     public List<T> select() throws AirtableException, HttpResponseException {
         return select(new Query() {

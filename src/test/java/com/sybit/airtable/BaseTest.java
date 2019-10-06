@@ -51,7 +51,7 @@ public class BaseTest {
         assertEquals(base.name(),"base");
     }
 
-    @Test(expected = java.lang.AssertionError.class )
+    @Test(expected = AssertionError.class )
     public void baseAssertationTest() {
         Base base = new Base(null,null);
     }

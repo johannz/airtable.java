@@ -6,8 +6,9 @@
  */
 package com.sybit.airtable;
 
-import com.mashape.unirest.http.ObjectMapper;
-import com.mashape.unirest.http.Unirest;
+import kong.unirest.ObjectMapper;
+import kong.unirest.Proxy;
+import kong.unirest.Unirest;
 import com.sybit.airtable.converter.ListConverter;
 import com.sybit.airtable.converter.MapConverter;
 import com.sybit.airtable.exception.AirtableException;
@@ -56,7 +57,7 @@ public class Airtable {
      * enviroment variable or within credentials.properties.
      *
      * @return An Airtable instance configured with GsonObjectMapper
-     * @throws com.sybit.airtable.exception.AirtableException Missing API-Key
+     * @throws AirtableException Missing API-Key
      */
     @SuppressWarnings("UnusedReturnValue")
     public Airtable configure() throws AirtableException {
@@ -69,7 +70,7 @@ public class Airtable {
      *
      * @param objectMapper A custom ObjectMapper implementation
      * @return An Airtable instance configured with supplied ObjectMapper
-     * @throws com.sybit.airtable.exception.AirtableException Missing API-Key
+     * @throws AirtableException Missing API-Key
      */
     @SuppressWarnings("UnusedReturnValue")
     public Airtable configure(ObjectMapper objectMapper) throws AirtableException {
@@ -93,7 +94,7 @@ public class Airtable {
      *
      * @param apiKey API-Key of Airtable.
      * @return An Airtable instance configured with GsonObjectMapper
-     * @throws com.sybit.airtable.exception.AirtableException Missing API-Key
+     * @throws AirtableException Missing API-Key
      */
     @SuppressWarnings("WeakerAccess")
     public Airtable configure(String apiKey) throws AirtableException {
@@ -106,7 +107,7 @@ public class Airtable {
      * @param apiKey API-Key of Airtable.
      * @param objectMapper A custom ObjectMapper implementation
      * @return
-     * @throws com.sybit.airtable.exception.AirtableException Missing API-Key
+     * @throws AirtableException Missing API-Key
      */
     @SuppressWarnings("WeakerAccess")
     public Airtable configure(String apiKey, ObjectMapper objectMapper) throws AirtableException {
@@ -149,13 +150,13 @@ public class Airtable {
 
         if (config.getTimeout() != null) {
             LOG.info("Set connection timeout to: " + config.getTimeout() + "ms.");
-            Unirest.setTimeouts(config.getTimeout(), config.getTimeout());
+            Unirest.config().connectTimeout(config.getTimeout()).socketTimeout(config.getTimeout());
         }
 
         configureProxy(config.getEndpointUrl());
 
         // Only one time
-        Unirest.setObjectMapper(objectMapper);
+        Unirest.config().setObjectMapper(objectMapper);
 
         // Add specific Converter for Date
         DateTimeConverter dtConverter = new DateConverter();
@@ -182,9 +183,10 @@ public class Airtable {
 
         this.config.setProxy(proxy);
         if (proxy == null) {
-            Unirest.setProxy(null);
+            Unirest.config().proxy(null);
         } else {
-            Unirest.setProxy(HttpHost.create(this.config.getProxy()));
+            HttpHost httpHost = new HttpHost(this.config.getProxy());
+            Unirest.config().proxy(httpHost.getHostName(), httpHost.getPort());
         }
 
     }
@@ -225,7 +227,7 @@ public class Airtable {
      * Getting the base by given property <code>AIRTABLE_BASE</code>.
      *
      * @return the base object.
-     * @throws com.sybit.airtable.exception.AirtableException Missing
+     * @throws AirtableException Missing
      * Airtable_BASE
      */
     public Base base() throws AirtableException {
@@ -249,7 +251,7 @@ public class Airtable {
      *
      * @param base the base id.
      * @return
-     * @throws com.sybit.airtable.exception.AirtableException AIRTABLE_BASE was
+     * @throws AirtableException AIRTABLE_BASE was
      * Null
      */
     public Base base(String base) throws AirtableException {

@@ -30,7 +30,7 @@ public class TableTest {
 
     }
 
-    @Test(expected = java.lang.AssertionError.class)
+    @Test(expected = AssertionError.class)
     public void testTableAssertions() {
         Table table = new Table(null, null);
 
